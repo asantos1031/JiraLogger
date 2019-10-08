@@ -6,7 +6,7 @@ const webpack = require('webpack');
 const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
 const logger = require('morgan');
-
+const mongoose = require('mongoose');
 const webpackConfig = require('../webpack.config');
 
 const isDev = process.env.NODE_ENV !== 'production';
@@ -20,6 +20,7 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(logger('dev'));
 app.use(express.json());
+mongoose.connect('mongodb://localhost:27017/sas', {useNewUrlParser: true});
 
 if (isDev) {
   const compiler = webpack(webpackConfig);
