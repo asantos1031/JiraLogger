@@ -1,0 +1,22 @@
+{
+  "name": "jiralogger",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/asantos1031/JiraLogger.git"
+  },
+  "author": "Adrian Santos, Maham Boghani, Miguel Conde, Rafael McCormack",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/asantos1031/JiraLogger/issues"
+  },
+  "homepage": "https://github.com/asantos1031/JiraLogger#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
