@@ -1,13 +1,13 @@
 const user = require("../../models/user");
 const authenticate = require("../middlewares/authenticate");
-const httpErrors = require("httperrors");
 const bcrypt = require("bcrypt");
+
 module.exports = app => {
   app.post("/api/user", async (req, res, next) => {
     user
       .findOne({ userName: req.body.userName })
       .exec()
-      .then(doc => res.status(409).json("User already exists"))
+      .then(() => res.status(409).json("User already exists"))
       .catch(() => {
         var encryptedPassword = bcrypt.hashSync(req.body.password, 10);
         var usr = new user(req.body);
