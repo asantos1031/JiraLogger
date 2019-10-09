@@ -10,7 +10,7 @@ class MainPage extends React.Component {
       user: "",
       password: "",
       name: "",
-      token: ''
+      token: ""
     };
   }
 
@@ -20,6 +20,18 @@ class MainPage extends React.Component {
     });
     this.passEl.addEventListener("usgChange", ev => {
       this.handlePasswordInput(ev);
+    });
+
+    this.userEl.addEventListener("keyup", val => {
+      if (val.code === "Enter") {
+        this.submitEl.click();
+      }
+    });
+
+    this.passEl.addEventListener("keyup", val => {
+      if (val.code === "Enter") {
+        this.submitEl.click();
+      }
     });
 
     this.createUsers();
@@ -82,16 +94,16 @@ class MainPage extends React.Component {
       }
     });
 
-    const name = await res.json()
+    const name = await res.json();
     this.setState({
-      'name': name.name,
+      name: name.name,
       notes: name.notes
-    })
+    });
 
     if (res.status === 200) {
       this.setState({
         authenticated: true
-      })
+      });
     }
   }
 
@@ -146,6 +158,9 @@ class MainPage extends React.Component {
           <usg-button
             onClick={() => {
               this.handleSubmit();
+            }}
+            ref={el => {
+              this.submitEl = el;
             }}
             style={{ marginLeft: 50 }}
           >
