@@ -7,7 +7,8 @@ class MainPage extends React.Component {
     this.state = {
       authenticated: false,
       user: "",
-      password: ""
+      password: "",
+      name: ""
     };
   }
 
@@ -17,6 +18,46 @@ class MainPage extends React.Component {
     });
     this.passEl.addEventListener("usgChange", ev => {
       this.handlePasswordInput(ev);
+    });
+
+    this.createUsers()
+  }
+
+  createUsers() {
+    const users = [
+      {
+        userName: "rafaell",
+        password: "password",
+        name: "Rafael",
+        id: "1234"
+      },
+      {
+        userName: "adrians",
+        password: "password",
+        name: "Adrian",
+        id: "1234"
+      },
+      {
+        userName: "miguelc",
+        password: "password",
+        name: "Miguel",
+        id: "1234"
+      },
+      {
+        userName: "mahamb",
+        password: "password",
+        name: "Maham",
+        id: "1234"
+      }
+    ];
+
+    users.map(body => {
+      fetch("/api/user", {
+        method: "Post",
+        body: body
+      }).then(res => {
+        console.log('created', JSON.parse(res))
+      });
     });
   }
 
@@ -33,8 +74,6 @@ class MainPage extends React.Component {
   }
 
   handleSubmit() {
-
-    console.log(this.state)
     if (this.state.user.length > 3) {
       if (this.state.password === "password") {
         this.setState({
@@ -48,7 +87,9 @@ class MainPage extends React.Component {
     if (this.state.authenticated) {
       return (
         <div>
-          <usg-nav-header heading="Self Assessment Service"></usg-nav-header>
+          <usg-nav-header
+            heading={`Hello, ${this.state.name}`}
+          ></usg-nav-header>
           <Content></Content>
         </div>
       );
@@ -76,7 +117,7 @@ class MainPage extends React.Component {
 
           <usg-button
             onClick={() => {
-              this.handleSubmit()
+              this.handleSubmit();
             }}
             style={{ marginLeft: 50 }}
           >
