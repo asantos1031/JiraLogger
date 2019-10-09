@@ -8,6 +8,7 @@ const webpackHotMiddleware = require('webpack-hot-middleware');
 const logger = require('morgan');
 const mongoose = require('mongoose');
 const webpackConfig = require('../webpack.config');
+const notFoundPlugin = require('./models/plugins/notfound');
 
 const isDev = process.env.NODE_ENV !== 'production';
 const port  = process.env.PORT || 8080;
@@ -23,6 +24,7 @@ app.use(logger('dev'));
 app.use(express.json());
 mongoose.connect('mongodb://localhost:27017/sas', {useNewUrlParser: true});
 mongoose.Promise = global.Promise;
+mongoose.plugin(notFoundPlugin);
 
 require('./routes')(app);
 
