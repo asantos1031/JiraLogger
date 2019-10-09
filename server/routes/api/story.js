@@ -4,7 +4,10 @@ const { makeInitialRequest } = require('../helpers/initialJiraDataCollector');
 
 module.exports = (app) => {
 
-    app.post("/api/story", makeInitialRequest);
+    app.post("/api/story", async (req,res,next) => {
+        var initial = await makeInitialRequest(req,res,next)
+        
+    });
 
     app.get("/api/story/:userName",(req,res) => {
         story.find( {'assignees': req.params.userName})
