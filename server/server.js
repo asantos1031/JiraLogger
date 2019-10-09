@@ -22,6 +22,8 @@ app.use(logger('dev'));
 app.use(express.json());
 mongoose.connect('mongodb://localhost:27017/sas', {useNewUrlParser: true});
 
+require('./routes')(app);
+
 if (isDev) {
   const compiler = webpack(webpackConfig);
 
