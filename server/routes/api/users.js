@@ -10,7 +10,7 @@ module.exports = app => {
       .findOne({ userName: req.body.userName })
       .exec()
       .then(() => res.status(409).json("User already exists"))
-      .catch(() => {
+      .catch(async () => {
         var encryptedPassword = bcrypt.hashSync(req.body.password, 10);
         var usr = new user(req.body);
         usr.password = encryptedPassword;
