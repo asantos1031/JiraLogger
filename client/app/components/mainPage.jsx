@@ -95,6 +95,9 @@ class MainPage extends React.Component {
   async authenticate() {
     const authRes = await fetch("/api/authenticate", {
       method: "POST",
+      headers: {
+        "content-type": "application/json"
+      },
       body: JSON.stringify({
         userName: this.state.user,
         password: this.state.password
