@@ -54,6 +54,9 @@ class MainPage extends React.Component {
     users.map(body => {
       fetch("/api/user", {
         method: "Post",
+        headers: {
+          'Content-Type': 'application/json'
+        },
         body: body
       }).then(res => {
         console.log('created', JSON.parse(res))
