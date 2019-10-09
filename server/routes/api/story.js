@@ -1,12 +1,23 @@
 const story = require('../../models/story');
 const initialCollector = require('./initialJiraDataCollector');
+var request = require('request');
 
 module.exports = (app) => {
 
-    app.post("/api/story/", async(req,res,next) => {
-        await initialCollector
-        .makeInitialRequest("adrian_santps")
-        .then( doc => res.body(doc));
+
+    app.get("/api/story", async(req,res,next) => {
+        var options = {
+            method: 'GET',
+            url: `https://team-tbd.atlassian.net//rest/api/3/search?jql=assignee=${req.body.assignee}`,
+            auth: { username: 'adrian_santos@ultimatesoftware.com', password: 'lDLHEtSanPJNQbsXjEndE186' },
+            headers: {
+                'Accept': 'application/json'
+            }
+        }
+        request(options, function (error, response, body) {
+            if(error) throw Error
+            res.body = body;
+        }).then()
     })
 
     app.get("/api/story/:userName",(req,res) => {
