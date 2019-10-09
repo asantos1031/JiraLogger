@@ -23,6 +23,7 @@
   "dependencies": {
     "@ignite/web-components": "^0.8.0",
     "antd": "^3.23.6",
+    "babel-polyfill": "^6.26.0",
     "bcrypt": "^3.0.6",
     "express": "^4.17.1",
     "httperrors": "^2.3.0",

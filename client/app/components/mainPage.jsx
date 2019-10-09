@@ -1,5 +1,6 @@
 import React from "react";
 import Content from "./content";
+import "babel-polyfill";
 
 class MainPage extends React.Component {
   constructor(props) {
@@ -20,48 +21,48 @@ class MainPage extends React.Component {
       this.handlePasswordInput(ev);
     });
 
-    this.createUsers()
+    this.createUsers();
   }
 
   createUsers() {
-    console.log('creating users')
+    console.log("creating users");
     const users = [
       {
-        userName: "rafael11l",
+        userName: "rafaell",
         password: "password",
         name: "Rafael",
         id: "1234"
       },
       {
-        userName: "adrian11s",
+        userName: "adrians",
         password: "password",
         name: "Adrian",
         id: "1234"
       },
       {
-        userName: "migu11elc",
+        userName: "miguelc",
         password: "password",
         name: "Miguel",
         id: "1234"
       },
       {
-        userName: "maha11mb",
+        userName: "mahamb",
         password: "password",
         name: "Maham",
         id: "1234"
       }
     ];
 
-    users.map(body => {
-      fetch("/api/user", {
+    users.map(async body => {
+      let res = await fetch("/api/user", {
         method: "POST",
         headers: {
-          'Content-Type': 'application/json'
+          "Content-Type": "application/json"
         },
         body: JSON.stringify(body)
-      }).then(res => {
-        console.log('created', JSON.parse(res))
       });
+
+      console.log(await res.json());
     });
   }
 
@@ -77,14 +78,32 @@ class MainPage extends React.Component {
     });
   }
 
-  handleSubmit() {
-    if (this.state.user.length > 3) {
-      if (this.state.password === "password") {
-        this.setState({
-          authenticated: true
-        });
-      }
-    }
+  async handleSubmit() {
+    console.log("authenticating");
+    console.log(this.state);
+    console.log(
+      JSON.stringify({
+        userName: this.state.user,
+        password: this.state.password
+      })
+    );
+    this.authenticate();
+    const res = await fetch("/api/user:" + this.state.user);
+    console.log(await res.json());
+  }
+
+  async authenticate() {
+    const authRes = await fetch("/api/authenticate", {
+      method: "POST",
+      body: JSON.stringify({
+        userName: this.state.user,
+        password: this.state.password
+      })
+    });
+
+    const token = await authRes.json();
+
+    console.log(token);
   }
 
   render() {
