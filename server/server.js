@@ -17,6 +17,7 @@ const port  = process.env.PORT || 8080;
 // ================================================================================================
 
 const app = express();
+app.set('key', "superDuperSecret12345");
 app.use(express.urlencoded({ extended: true }));
 app.use(logger('dev'));
 app.use(express.json());
@@ -24,6 +25,10 @@ mongoose.connect('mongodb://localhost:27017/sas', {useNewUrlParser: true});
 mongoose.Promise = global.Promise;
 
 require('./routes')(app);
+
+app.use((error, req, res, next) => {
+  res.status(error.status || 500).json({ message: error.message });
+});
 
 if (isDev) {
   const compiler = webpack(webpackConfig);
