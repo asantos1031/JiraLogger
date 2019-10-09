@@ -13,7 +13,10 @@ module.exports = (app) => {
             usr.password = encryptedPassword;
     
             usr.save()
-            .then(doc => res.status(201).json(doc))
+            .then(doc => {
+                const {userName, name, id, notes} = doc;
+                res.status(201).json({userName, name, id, notes})}
+                )
             .catch(err => next(err));
         });
         })
