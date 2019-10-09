@@ -3,8 +3,8 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var CommentsSchema = new Schema({
-    userID: {type: UUID, index: true},
-    storyID: UUID,
+    userID: {type: String, index: true},
+    storyID: String,
     content: [String]
 });
 

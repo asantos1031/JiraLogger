@@ -18,11 +18,12 @@ module.exports = {
 
   output: {
     path: helpers.root('dist'),
+    filename: 'bundle.js',
     publicPath: '/'
   },
 
   resolve: {
-    extensions: ['.js', '.json', '.css', '.scss', '.html'],
+    extensions: ['.js', '.jsx', '.json', '.css', '.scss', '.html'],
     alias: {
       'app': 'client/app'
     }
@@ -32,8 +33,8 @@ module.exports = {
     rules: [
       // JS files
       {
-        test: /\.jsx?$/,
-        include: helpers.root('client'),
+        test: /\.(js|jsx)$/,
+        exclude: /node_modules/,
         loader: 'babel-loader'
       },
       {
