@@ -1,7 +1,6 @@
 const user = require("../../models/user");
 const story = require('../../models/story');
 const authenticate = require("../middlewares/authenticate");
-const httpErrors = require("httperrors");
 const bcrypt = require("bcrypt");
 const { makeInitialRequest, createJiraTickets } = require('../helpers/initialJiraDataCollector');
 
@@ -10,8 +9,8 @@ module.exports = app => {
     user
       .findOne({ userName: req.body.userName })
       .exec()
-      .then(doc => res.status(409).json("User already exists"))
-      .catch(async() => {
+      .then(() => res.status(409).json("User already exists"))
+      .catch(() => {
         var encryptedPassword = bcrypt.hashSync(req.body.password, 10);
         var usr = new user(req.body);
         usr.password = encryptedPassword;

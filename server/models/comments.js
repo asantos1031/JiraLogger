@@ -1,11 +1,12 @@
-var UUID = require('uuid/v1')
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var CommentsSchema = new Schema({
-    userID: {type: String, index: true},
-    storyID: String,
+    userName: {type: String, index: true},
+    storyId: String,
     content: [String]
 });
 
-module.exports = mongoose.model("Comments",CommentsSchema);
+CommentsSchema.index({ userName: 1, storyId: 1 }, { unique: true});
+
+module.exports = mongoose.model("Comments", CommentsSchema);
