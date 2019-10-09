@@ -1,17 +1,25 @@
 const user = require("../../models/user");
+const story = require('../../models/story');
 const authenticate = require("../middlewares/authenticate");
 const httpErrors = require("httperrors");
 const bcrypt = require("bcrypt");
+const { makeInitialRequest, createJiraTickets } = require('../helpers/initialJiraDataCollector');
+
 module.exports = app => {
   app.post("/api/user", async (req, res, next) => {
     user
       .findOne({ userName: req.body.userName })
       .exec()
       .then(doc => res.status(409).json("User already exists"))
-      .catch(() => {
+      .catch(async() => {
         var encryptedPassword = bcrypt.hashSync(req.body.password, 10);
         var usr = new user(req.body);
         usr.password = encryptedPassword;
+        var initial = await makeInitialRequest(req.body.userName);
+        createJiraTickets(initial).forEach( element => {
+            element.save()
+        });
+
         usr
           .save()
           .then(doc => {

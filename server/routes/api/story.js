@@ -1,15 +1,11 @@
 const story = require('../../models/story');
 var request = require('request');
-const { makeInitialRequest } = require('../helpers/initialJiraDataCollector');
+const { makeInitialRequest, createJiraTickets } = require('../helpers/initialJiraDataCollector');
+const authenticate = require("../middlewares/authenticate");
 
 module.exports = (app) => {
 
-    app.post("/api/story", async (req,res,next) => {
-        var initial = await makeInitialRequest(req,res,next)
-        
-    });
-
-    app.get("/api/story/:userName",(req,res) => {
+    app.get("/api/story/:userName", authenticate, (req,res) => {
         story.find( {'assignees': req.params.userName})
         .exec()
         .then(doc => {

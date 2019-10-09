@@ -6,8 +6,8 @@ var StorySchema = new Schema({
     jiraID: {type: String, index: true},
     link: String,
     assignees: [String],
-    startDate: Date,
-    endDate: Date
+    startDate: String,
+    endDate: String
 });
 
 module.exports = mongoose.model("Story",StorySchema);
