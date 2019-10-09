@@ -2,7 +2,7 @@
   "name": "jiralogger",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "index.jsx",
   "scripts": {
     "start": "webpack -p --progress --profile --colors && node server",
     "build": "webpack -p --progress --config=config/webpack.prod.js --mode production",
@@ -21,6 +21,8 @@
   },
   "homepage": "https://github.com/asantos1031/JiraLogger#readme",
   "dependencies": {
+    "@ignite/web-components": "^0.8.0",
+    "antd": "^3.23.6",
     "bcrypt": "^3.0.2",
     "express": "^4.17.1",
     "httperrors": "^2.3.0",
