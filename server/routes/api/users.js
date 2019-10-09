@@ -11,7 +11,6 @@ module.exports = (app) => {
             var encryptedPassword = bcrypt.hashSync(req.body.password, 10);
             var usr = new user(req.body);
             usr.password = encryptedPassword;
-            usr.id = null;
             usr.save()
             .then(doc => {
                 const {password, ...rest} = doc._doc;

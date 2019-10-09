@@ -24,27 +24,28 @@ class MainPage extends React.Component {
   }
 
   createUsers() {
+    console.log('creating users')
     const users = [
       {
-        userName: "rafaell",
+        userName: "rafael11l",
         password: "password",
         name: "Rafael",
         id: "1234"
       },
       {
-        userName: "adrians",
+        userName: "adrian11s",
         password: "password",
         name: "Adrian",
         id: "1234"
       },
       {
-        userName: "miguelc",
+        userName: "migu11elc",
         password: "password",
         name: "Miguel",
         id: "1234"
       },
       {
-        userName: "mahamb",
+        userName: "maha11mb",
         password: "password",
         name: "Maham",
         id: "1234"
@@ -53,11 +54,11 @@ class MainPage extends React.Component {
 
     users.map(body => {
       fetch("/api/user", {
-        method: "Post",
+        method: "POST",
         headers: {
           'Content-Type': 'application/json'
         },
-        body: body
+        body: JSON.stringify(body)
       }).then(res => {
         console.log('created', JSON.parse(res))
       });
