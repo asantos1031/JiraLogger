@@ -74,7 +74,7 @@ class Content extends React.Component {
       });
 
       await this.getUsersNotes()
-      console.log(this.noteEl.innerHTML)
+      this.noteEl.value = ""
     }
   }
 
@@ -148,7 +148,6 @@ class Content extends React.Component {
               </h2>
               <ul style={{maxHeight: 200, overflowY: 'scroll', borderBottom: '1px solid lightgrey'}}>
                 {this.state.notes.map(note => {
-                  console.log('note', note)
                   return <li>{note}</li>;
                 })}
               </ul>
@@ -163,10 +162,10 @@ class Content extends React.Component {
               >
                 <usg-item>
                   <usg-label position="floating">Label</usg-label>
-                  <usg-textarea
+                  <usg-input
                     ref={elem => (this.noteEl = elem)}
                     id="usg-input-test"
-                  ></usg-textarea>
+                  ></usg-input>
                 </usg-item>
                 <usg-input-assistive>
                   <usg-label position="floating" slot="left">
