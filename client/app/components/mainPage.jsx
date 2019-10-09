@@ -6,8 +6,8 @@ class MainPage extends React.Component {
     super(props);
     this.state = {
       authenticated: false,
-      user: '',
-      password: ''
+      user: "",
+      password: ""
     };
   }
 
@@ -15,8 +15,8 @@ class MainPage extends React.Component {
     this.userEl.addEventListener("usgChange", ev => {
       this.handleUsernameInput(ev);
     });
-    this.passEl.addEventListener("usgChange", (ev) => {
-      this.handlePasswordInput(ev)
+    this.passEl.addEventListener("usgChange", ev => {
+      this.handlePasswordInput(ev);
     });
   }
 
@@ -30,6 +30,18 @@ class MainPage extends React.Component {
     this.setState({
       password: input.detail.value
     });
+  }
+
+  handleSubmit() {
+
+    console.log(this.state)
+    if (this.state.user.length > 3) {
+      if (this.state.password === "password") {
+        this.setState({
+          authenticated: true
+        });
+      }
+    }
   }
 
   render() {
@@ -57,18 +69,19 @@ class MainPage extends React.Component {
               <usg-label position="floating">Password</usg-label>
               <usg-input
                 ref={elem => (this.passEl = elem)}
-                type="text"
+                type="password"
               ></usg-input>
             </usg-item>
           </usg-input-container>
 
-          <usg-button onClick={() => {
-            if (this.state.user.length > 1) {
-              this.setState({
-                authenticated: true
-              })
-            }
-          }} style={{ marginLeft: 50 }}>Submit</usg-button>
+          <usg-button
+            onClick={() => {
+              this.handleSubmit()
+            }}
+            style={{ marginLeft: 50 }}
+          >
+            Submit
+          </usg-button>
         </div>
       );
     }
