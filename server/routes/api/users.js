@@ -11,7 +11,7 @@ module.exports = (app) => {
             var encryptedPassword = bcrypt.hashSync(req.body.password, 10);
             var usr = new user(req.body);
             usr.password = encryptedPassword;
-    
+            usr.id = null;
             usr.save()
             .then(doc => {
                 const {password, ...rest} = doc._doc;
@@ -36,12 +36,8 @@ module.exports = (app) => {
         user.findOne({'userName': req.params.userName})
         .exec()
         .then(usr =>{
-                var usrInfo = {
-                    name: usr.name,
-                    id: usr.id,
-                    notes: usr.notes
-                }
-                res.status(200).json(usrInfo)
+                const {password, ...rest} = usr._doc
+                res.status(200).json(rest)
             })
         .catch(err => next(err))
     })
