@@ -10,7 +10,6 @@ module.exports = (app) => {
     })
 
     app.get("/api/user/:id",(req,res,next) => {
-        
         user.findOne({'id': req.params.id}).exec().then(document =>
             res.json(document))
     })
