@@ -14,8 +14,8 @@ module.exports = (app) => {
     
             usr.save()
             .then(doc => {
-                const {userName, name, id, notes} = doc;
-                res.status(201).json({userName, name, id, notes})}
+                const {password, ...rest} = doc._doc;
+                res.status(201).json(rest)}
                 )
             .catch(err => next(err));
         });
