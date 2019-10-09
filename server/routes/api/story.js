@@ -5,7 +5,7 @@ var request = require('request');
 module.exports = (app) => {
 
 
-    app.get("/api/story", async(req,res,next) => {
+    app.post("/api/story", async(req,res,next) => {
         var options = {
             method: 'GET',
             url: `https://team-tbd.atlassian.net//rest/api/3/search?jql=assignee=${req.body.assignee}`,
@@ -16,8 +16,8 @@ module.exports = (app) => {
         }
         request(options, function (error, response, body) {
             if(error) throw Error
-            res.body = body;
-        }).then()
+            res.json(JSON.parse(body));
+        });
     })
 
     app.get("/api/story/:userName",(req,res) => {
