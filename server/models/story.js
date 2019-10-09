@@ -3,9 +3,9 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var StorySchema = new Schema({
-    jiraId: {type: String, index: true},
+    jiraID: {type: UUID, index: true},
     link: String,
-    assignees: [String],
+    assignees: [UUID],
     startDate: Date,
     endDate: Date
 });

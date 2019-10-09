@@ -20,7 +20,8 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(logger('dev'));
 app.use(express.json());
-//mongoose.connect('mongodb://localhost:27017/sas', {useNewUrlParser: true});
+mongoose.connect('mongodb://localhost:27017/sas', {useNewUrlParser: true});
+mongoose.Promise = global.Promise;
 
 require('./routes')(app);
 
