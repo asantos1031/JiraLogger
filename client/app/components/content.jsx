@@ -1,12 +1,15 @@
 import { Card, List, Divider } from "antd";
 import React from "react";
+import "babel-polyfill";
 
 class Content extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       isSelected: false,
-      currentSelected: {}
+      currentSelected: {},
+      inputText: "",
+      notes: []
     };
   }
 
@@ -26,10 +29,59 @@ class Content extends React.Component {
     });
   }
 
+  async getUsersNotes() {
+    const res = await fetch("/api/user/" + this.props.user, {
+      headers: {
+        "x-access-token": this.props.auth,
+        "content-type": "application/json"
+      }
+    });
+
+    res.json().then(notes => this.setState({
+      notes: notes.notes
+    }));
+
+
+  }
+
+  componentWillMount() {
+    this.getUsersNotes();
+  }
+
+  componentDidMount() {
+    this.noteEl.addEventListener("usgChange", val => {
+      this.handleTextInput(val.detail.value);
+    });
+
+    this.noteEl.addEventListener("keyup", async val => {
+      await this.submitNoteHandler(val);
+    });
+  }
+
+  async submitNoteHandler(val) {
+    let res;
+    if (val.code === "Enter") {
+      res = await fetch("/api/user/" + this.props.user, {
+        method: "PUT",
+        headers: {
+          "x-access-token": this.props.auth,
+          "content-type": "application/json"
+        },
+        body: JSON.stringify({
+          userName: this.props.user,
+          notes: this.state.inputText
+        })
+      });
+
+      await this.getUsersNotes()
+      console.log(this.noteEl.innerHTML)
+    }
+  }
+
   renderSelected() {
-    if (this.state.currentSelected) {
+    if (this.state.currentSelected !== {}) {
       return (
-        <div>
+        <div style={{ border: "1px solid lightgrey", minHeight: 300 }}>
           <div>{this.state.currentSelected.name}</div>
           <div>{this.state.currentSelected.desc}</div>
         </div>
@@ -39,16 +91,20 @@ class Content extends React.Component {
     }
   }
 
+  handleTextInput(val) {
+    this.setState({
+      inputText: val
+    });
+  }
+
   render() {
     return (
       <div className="content">
         <Card title="Overview" style={{ width: "100%", marginBottom: 24 }}>
           <div style={{ display: "flex", justifyContent: "space-around" }}>
-            <div>Hello</div>
-            <Divider type="vertical" />
-            <div>Hello</div>
-            <Divider type="vertical" />
-            <div>Hello</div>
+            <div>Total Stories: 0</div>
+            <Divider style={{ height: "auto" }} type="vertical" />
+            <div>Cycle Time: 0</div>
           </div>
         </Card>
         <div style={{ display: "flex" }}>
@@ -70,7 +126,56 @@ class Content extends React.Component {
             )}
             style={{ width: "100%", maxHeight: "504px", overflowY: "scroll" }}
           />
-          <div style={{ width: "100%", border: "1px solid black" }}>{this.renderSelected()}</div>
+          <div
+            style={{
+              width: "100%",
+              paddingLeft: "16px",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-evenly"
+            }}
+          >
+            <div>{this.renderSelected()}</div>
+            <div
+              style={{
+                border: "1px solid lightgrey",
+                minHeight: 300,
+                marginTop: 16
+              }}
+            >
+              <h2 style={{ textAlign: "center", textDecoration: "underline" }}>
+                Notes
+              </h2>
+              <ul style={{maxHeight: 189, overflowY: 'scroll'}}>
+                {this.state.notes.map(note => {
+                  console.log('note', note)
+                  return <li>{note}</li>;
+                })}
+              </ul>
+              <usg-input-container
+                style={{
+                  width: "80%",
+                  margin: "auto",
+                  marginBottom: 16,
+                  marginTop: "20%"
+                }}
+                block
+              >
+                <usg-item>
+                  <usg-label position="floating">Label</usg-label>
+                  <usg-textarea
+                    ref={elem => (this.noteEl = elem)}
+                    id="usg-input-test"
+                  ></usg-textarea>
+                </usg-item>
+                <usg-input-assistive>
+                  <usg-label position="floating" slot="left">
+                    Enter notes
+                  </usg-label>
+                </usg-input-assistive>
+              </usg-input-container>
+            </div>
+          </div>
         </div>
       </div>
     );

@@ -9,7 +9,8 @@ class MainPage extends React.Component {
       authenticated: false,
       user: "",
       password: "",
-      name: ""
+      name: "",
+      token: ''
     };
   }
 
@@ -28,25 +29,25 @@ class MainPage extends React.Component {
     console.log("creating users");
     const users = [
       {
-        userName: "rafaell",
+        userName: "rafael_leal",
         password: "password",
         name: "Rafael",
         id: "1234"
       },
       {
-        userName: "adrians",
+        userName: "adrian_santos",
         password: "password",
         name: "Adrian",
         id: "1234"
       },
       {
-        userName: "miguelc",
+        userName: "miguel_conde",
         password: "password",
         name: "Miguel",
         id: "1234"
       },
       {
-        userName: "mahamb",
+        userName: "admin",
         password: "password",
         name: "Maham",
         id: "1234"
@@ -61,8 +62,6 @@ class MainPage extends React.Component {
         },
         body: JSON.stringify(body)
       });
-
-      console.log(await res.json());
     });
   }
 
@@ -79,17 +78,25 @@ class MainPage extends React.Component {
   }
 
   async handleSubmit() {
-    console.log("authenticating");
-    console.log(this.state);
-    console.log(
-      JSON.stringify({
-        userName: this.state.user,
-        password: this.state.password
+    await this.authenticate();
+    const res = await fetch("/api/user/" + this.state.user, {
+      headers: {
+        "x-access-token": this.state.token,
+        "content-type": "application/json"
+      }
+    });
+
+    const name = await res.json()
+    this.setState({
+      'name': name.name,
+      notes: name.notes
+    })
+
+    if (res.status === 200) {
+      this.setState({
+        authenticated: true
       })
-    );
-    this.authenticate();
-    const res = await fetch("/api/user:" + this.state.user);
-    console.log(await res.json());
+    }
   }
 
   async authenticate() {
@@ -105,8 +112,7 @@ class MainPage extends React.Component {
     });
 
     const token = await authRes.json();
-
-    console.log(token);
+    this.state.token = token.token;
   }
 
   render() {
@@ -116,7 +122,7 @@ class MainPage extends React.Component {
           <usg-nav-header
             heading={`Hello, ${this.state.name}`}
           ></usg-nav-header>
-          <Content></Content>
+          <Content auth={this.state.token} user={this.state.user}></Content>
         </div>
       );
     } else {
