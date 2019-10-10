@@ -23,10 +23,30 @@ function createJiraTickets(body) {
             link: `https://team-tbd.atlassian.net/jira/software/projects/JIL/boards/1?selectedIssue=${element.key}`,
             assignees: getAssignees(element, element.fields.assignee.key),
             startDate: getStartDate(element),
-            endDate: getEndDate(element)
+            endDate: getEndDate(element),
+            name: element.fields.summary,
+            description: getDescription(element)
         })
     });
     return jiraStoryList;
+}
+
+function getDescription(issue) {
+    var desc = null;
+    if(!issue.fields.description || !issue.fields.description.content) return desc;
+    issue.fields.description.content.forEach( item => {
+        if(item.type === "paragraph") {
+            if(!item.content) return desc;
+            item.content.forEach( text => {
+                if(text.type === "text"){
+                    if(!desc && text.text) desc = text.text;
+                    else if(text.text) desc += `\n${text.text}`; 
+                }
+            })
+        }
+    });
+    
+    return desc;
 }
 
 function getStartDate(issue){

@@ -7,7 +7,9 @@ var StorySchema = new Schema({
     link: String,
     assignees: [String],
     startDate: String,
-    endDate: String
+    endDate: String,
+    name: String,
+    description: String
 });
 
 module.exports = mongoose.model("Story",StorySchema);
