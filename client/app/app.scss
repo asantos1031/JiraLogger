@@ -1,11 +1,30 @@
-@import '~antd/dist/antd.css';
+@import "~antd/dist/antd.css";
 
 .content {
   padding: 24px;
+}
+.super-container {
+  background: url('/images/ulti.jpg') no-repeat center center fixed;
+  background-size: cover; 
+
+  height: 100vh;
+  width: 100vw;
 }
 
 .login {
   position: absolute;
   top: 35%;
-  left: 40%;
+  left: 42%;
+  background-color: lightgrey;
+  border-radius: 6px;
+  padding: 16px;
+  border: 1px solid black
+}
+
+.icon-button {
+  transition: transform 30s linear;
+}
+
+.icon-button:hover {
+  transform: rotate(3600deg);
 }

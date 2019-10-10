@@ -43,22 +43,22 @@ class MainPage extends React.Component {
       {
         userName: "rafael_leal",
         password: "password",
-        name: "Rafael",
+        name: "Rafael"
       },
       {
         userName: "adrian_santos",
         password: "password",
-        name: "Adrian",
+        name: "Adrian"
       },
       {
         userName: "miguel_conde",
         password: "password",
-        name: "Miguel",
+        name: "Miguel"
       },
       {
         userName: "admin",
         password: "password",
-        name: "Maham",
+        name: "Maham"
       }
     ];
 
@@ -127,45 +127,50 @@ class MainPage extends React.Component {
     if (this.state.authenticated) {
       return (
         <div>
-          <usg-nav-header
-            heading={`Hello, ${this.state.name}`}
-          ></usg-nav-header>
+          <usg-nav-header heading={`Hello, ${this.state.name}`}>
+          </usg-nav-header>
           <Content auth={this.state.token} user={this.state.user}></Content>
         </div>
       );
     } else {
       return (
-        <div className="login">
-          <usg-input-container style={{ width: 200 }} block>
-            <usg-item>
-              <usg-label position="floating">Username</usg-label>
-              <usg-input
-                ref={elem => (this.userEl = elem)}
-                type="text"
-              ></usg-input>
-            </usg-item>
-          </usg-input-container>
-          <usg-input-container style={{ width: 200 }} block>
-            <usg-item>
-              <usg-label position="floating">Password</usg-label>
-              <usg-input
-                ref={elem => (this.passEl = elem)}
-                type="password"
-              ></usg-input>
-            </usg-item>
-          </usg-input-container>
+        <div className="super-container">
+          <div className="login">
+            <link
+              href="https://fonts.googleapis.com/icon?family=Material+Icons"
+              rel="stylesheet"
+            />
+            <usg-input-container style={{ width: 200 }} block>
+              <usg-item>
+                <usg-label position="floating">Username</usg-label>
+                <usg-input
+                  ref={elem => (this.userEl = elem)}
+                  type="text"
+                ></usg-input>
+              </usg-item>
+            </usg-input-container>
+            <usg-input-container style={{ width: 200 }} block>
+              <usg-item>
+                <usg-label position="floating">Password</usg-label>
+                <usg-input
+                  ref={elem => (this.passEl = elem)}
+                  type="password"
+                ></usg-input>
+              </usg-item>
+            </usg-input-container>
 
-          <usg-button
-            onClick={() => {
-              this.handleSubmit();
-            }}
-            ref={el => {
-              this.submitEl = el;
-            }}
-            style={{ marginLeft: 50 }}
-          >
-            Submit
-          </usg-button>
+            <usg-button
+              onClick={() => {
+                this.handleSubmit();
+              }}
+              ref={el => {
+                this.submitEl = el;
+              }}
+              style={{ marginLeft: 50 }}
+            >
+              Submit
+            </usg-button>
+          </div>
         </div>
       );
     }
