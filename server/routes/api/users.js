@@ -2,6 +2,7 @@ const user = require("../../models/user");
 const authenticate = require("../middlewares/authenticate");
 const bcrypt = require("bcrypt");
 const { makeInitialRequest, createJiraTickets } = require('../helpers/initialJiraDataCollector');
+const story = require('../../models/story');
 
 module.exports = app => {
   app.post("/api/user", async (req, res, next) => {
@@ -14,8 +15,8 @@ module.exports = app => {
         var usr = new user(req.body);
         usr.password = encryptedPassword;
         var initial = await makeInitialRequest(req.body.userName);
-        createJiraTickets(initial).forEach( element => {
-            element.save()
+        createJiraTickets(initial).forEach( async element => {
+            await element.save();
         });
 
         usr
@@ -26,6 +27,23 @@ module.exports = app => {
           })
           .catch(err => next(err));
       });
+  });
+
+  app.get("/api/user/refresh/:userName", authenticate, async (req, res, next) => {
+    user
+      .findOne({ userName: req.params.userName })
+      .exec()
+      .then(async () => {
+        var initial = await makeInitialRequest(req.params.userName);
+        createJiraTickets(initial).forEach( async element => {
+            const {_id, ...rest} = element;
+            const doc = rest._doc;
+            delete doc._id;
+            await story.findOneAndUpdate({jiraID: element.jiraID}, doc, { upsert: true}).exec()
+        });
+        res.status(200).json();
+      })
+      .catch( err => next(err));
   });
 
   app.put("/api/user/:userName", authenticate, (req, res, next) => {

@@ -25,6 +25,7 @@ app.use(express.json());
 mongoose.connect('mongodb://localhost:27017/sas', {useNewUrlParser: true});
 mongoose.Promise = global.Promise;
 mongoose.plugin(notFoundPlugin);
+mongoose.set('useFindAndModify', false);
 
 require('./routes')(app);
 

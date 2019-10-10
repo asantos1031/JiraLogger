@@ -9,12 +9,14 @@ module.exports = (app) => {
 
     function getAverageCycleTime(stories) {
         var diff = 0.0;
+        var total = 0;
         stories.forEach(story => {
             if(story.startDate && story.endDate) {
+                total++;
                 diff += Date.parse(story.endDate) - Date.parse(story.startDate);
             }
         });
-        diff /= getTotal(stories);
+        diff /= total;
         return diff / (3600000 * 24);
     }
 
