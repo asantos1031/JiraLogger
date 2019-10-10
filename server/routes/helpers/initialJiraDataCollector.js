@@ -54,7 +54,7 @@ function getStartDate(issue){
     issue.changelog.histories.forEach( history => {
         history.items.forEach( item => {
             if(item.field === "status"){
-                if(item.toString === "In Progress"){
+                if(item.toString.toUpperCase() === "IN PROGRESS"){
                     if(startDate){
                         if(Date.parse(startDate) < Date.parse(history.created)){
                             startDate = history.created;
@@ -73,7 +73,7 @@ function getEndDate(issue){
     issue.changelog.histories.forEach( history => {
         history.items.forEach( item => {
             if(item.field === "status"){
-                if(item.toString === "Done"){
+                if(item.toString.toUpperCase() === "DONE"){
                     if(endDate){
                         if(Date.parse(endDate) < Date.parse(history.created)){
                             endDate = history.created;

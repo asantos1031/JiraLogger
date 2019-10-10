@@ -1,5 +1,4 @@
 const user = require("../../models/user");
-const story = require('../../models/story');
 const authenticate = require("../middlewares/authenticate");
 const bcrypt = require("bcrypt");
 const { makeInitialRequest, createJiraTickets } = require('../helpers/initialJiraDataCollector');
