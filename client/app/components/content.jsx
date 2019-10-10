@@ -73,8 +73,12 @@ class Content extends React.Component {
         })
       });
 
-      await this.getUsersNotes()
-      console.log(this.noteEl.innerHTML)
+      await this.getUsersNotes();
+
+      this.setState({
+        inputText: ''
+      });
+      document.activeElement.blur();
     }
   }
 
@@ -166,6 +170,7 @@ class Content extends React.Component {
                   <usg-textarea
                     ref={elem => (this.noteEl = elem)}
                     id="usg-input-test"
+                    value={this.state.inputText}
                   ></usg-textarea>
                 </usg-item>
                 <usg-input-assistive>
