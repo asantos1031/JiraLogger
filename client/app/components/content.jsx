@@ -69,7 +69,7 @@ class Content extends React.Component {
         },
         body: JSON.stringify({
           userName: this.props.user,
-          notes: this.state.inputText
+          notes: `${this.state.inputText} :: timestamp: ${new Date().toLocaleString()}`
         })
       });
 
@@ -79,8 +79,9 @@ class Content extends React.Component {
         inputText: ''
       });
       document.activeElement.blur();
-    }
+
   }
+}
 
   renderSelected() {
     if (this.state.currentSelected !== {}) {
@@ -152,7 +153,6 @@ class Content extends React.Component {
               </h2>
               <ul style={{maxHeight: 200, overflowY: 'scroll', borderBottom: '1px solid lightgrey'}}>
                 {this.state.notes.map(note => {
-                  console.log('note', note)
                   return <li>{note}</li>;
                 })}
               </ul>

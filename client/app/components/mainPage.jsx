@@ -44,25 +44,21 @@ class MainPage extends React.Component {
         userName: "rafael_leal",
         password: "password",
         name: "Rafael",
-        id: "1234"
       },
       {
         userName: "adrian_santos",
         password: "password",
         name: "Adrian",
-        id: "1234"
       },
       {
         userName: "miguel_conde",
         password: "password",
         name: "Miguel",
-        id: "1234"
       },
       {
         userName: "admin",
         password: "password",
         name: "Maham",
-        id: "1234"
       }
     ];
 
